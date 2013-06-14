@@ -1,6 +1,9 @@
 App.ContenteditableView = Em.View.extend({
 	tagName: 'div',
 	attributeBindings: ['contenteditable'],
+	
+	// Toggle plain text inside the <div> element:
+	plaintext: false,
 
 	// Variables:
 	contenteditable: 'true',
@@ -9,7 +12,7 @@ App.ContenteditableView = Em.View.extend({
 	// Observers:
 	valueObserver: (function() {
 		if (!this.get('isUserTyping') && this.get('value')) {
-			this._updateHtml();
+			this.setContent();
 		}
 	}).observes('value'),
 
@@ -29,12 +32,15 @@ App.ContenteditableView = Em.View.extend({
 	},
 
 	keyUp: function(event) {
-		this.set('value', this.$().html());
+		if (this.get('plaintext')) {
+			this.set('value', this.$().text());
+		} else {
+			this.set('value', this.$().html());
+		}
 	},
 	
-	_updateHtml: function() {
+	setContent: function() {
 		this.$().html(this.get('value'));
-	},
-
+	}
 
 });
