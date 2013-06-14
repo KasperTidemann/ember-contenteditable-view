@@ -1,5 +1,5 @@
 App.ContenteditableView = Em.View.extend({
-  tagName: 'div',
+	tagName: 'div',
 	attributeBindings: ['contenteditable'],
 	
 	// Variables:
@@ -11,12 +11,12 @@ App.ContenteditableView = Em.View.extend({
 		if (!this.get('isUserTyping') && this.get('value')) {
 			this.$().html(this.get('value'));
 		}
-  }).observes('value'),
+	}).observes('value'),
 	
 	// Events:
-  focusOut: function() {
+	focusOut: function() {
 		this.set('isUserTyping', false);
-  },
+	},
 	
 	keyDown: function(event) {
 		if (!event.metaKey) {
