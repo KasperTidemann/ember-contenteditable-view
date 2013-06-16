@@ -18,7 +18,7 @@ App.ContenteditableView = Em.View.extend({
 
 	// Events:
 	didInsertElement: function() {
-		this._updateHtml();
+		this.setContent();
 	},
 
 	focusOut: function() {
