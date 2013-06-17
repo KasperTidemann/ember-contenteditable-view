@@ -1,46 +1,51 @@
 App.ContenteditableView = Em.View.extend({
-	tagName: 'div',
-	attributeBindings: ['contenteditable'],
-	
-	// Toggle plain text inside the <div> element:
-	plaintext: false,
+  tagName: "div",
 
-	// Variables:
-	contenteditable: 'true',
-	isUserTyping: false,
+  attributeBindings: ['contenteditable'],
 
-	// Observers:
-	valueObserver: (function() {
-		if (!this.get('isUserTyping') && this.get('value')) {
-			this.setContent();
-		}
-	}).observes('value'),
+  plaintext: false,
 
-	// Events:
-	didInsertElement: function() {
-		this.setContent();
-	},
+  isUserTyping: false,
 
-	focusOut: function() {
-		this.set('isUserTyping', false);
-	},
+  editable: false,
 
-	keyDown: function(event) {
-		if (!event.metaKey) {
-			this.set('isUserTyping', true);
-		}
-	},
+  contenteditable: (function() {
+    if (this.get('editable')) {
+      return "true";
+    } else {
+      return "false";
+    }
+  }).property('editable'),
 
-	keyUp: function(event) {
-		if (this.get('plaintext')) {
-			this.set('value', this.$().text());
-		} else {
-			this.set('value', this.$().html());
-		}
-	},
-	
-	setContent: function() {
-		this.$().html(this.get('value'));
-	}
+  valueObserver: (function() {
+    if (!this.get("isUserTyping") && this.get("value")) {
+      return this.setContent();
+    }
+  }).observes("value"),
 
+  didInsertElement: function() {
+    return this.setContent();
+  },
+
+  focusOut: function() {
+    return this.set("isUserTyping", false);
+  },
+
+  keyDown: function(event) {
+    if (!event.metaKey) {
+      return this.set("isUserTyping", true);
+    }
+  },
+
+  keyUp: function(event) {
+    if (this.get("plaintext")) {
+      return this.set("value", this.$().text());
+    } else {
+      return this.set("value", this.$().html());
+    }
+  },
+
+  setContent: function() {
+    return this.$().html(this.get("value"));
+  }
 });
