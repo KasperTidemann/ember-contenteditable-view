@@ -1,51 +1,54 @@
 App.ContenteditableView = Em.View.extend({
-  tagName: "div",
+	tagName: 'div',
+	attributeBindings: ['contenteditable'],
 
-  attributeBindings: ['contenteditable'],
+	// Variables:
+	editable: false,
+	isUserTyping: false,
+	plaintext: false,
 
-  plaintext: false,
+	// Properties:
+	contenteditable: (function() {
+		var editable = this.get('editable');
 
-  isUserTyping: false,
+		if (editable) {
+			return editable ? 'true' : 'false';
+		} else {
+			return 'true';
+		}
+	}).property('editable'),
 
-  editable: false,
+	// Observers:
+	valueObserver: (function() {
+		if (!this.get('isUserTyping') && this.get('value')) {
+			return this.setContent();
+		}
+	}).observes('value'),
 
-  contenteditable: (function() {
-    if (this.get('editable')) {
-      return "true";
-    } else {
-      return "false";
-    }
-  }).property('editable'),
+	// Events:
+	didInsertElement: function() {
+		return this.setContent();
+	},
 
-  valueObserver: (function() {
-    if (!this.get("isUserTyping") && this.get("value")) {
-      return this.setContent();
-    }
-  }).observes("value"),
+	focusOut: function() {
+		return this.set('isUserTyping', false);
+	},
 
-  didInsertElement: function() {
-    return this.setContent();
-  },
+	keyDown: function(event) {
+		if (!event.metaKey) {
+			return this.set('isUserTyping', true);
+		}
+	},
 
-  focusOut: function() {
-    return this.set("isUserTyping", false);
-  },
+	keyUp: function(event) {
+		if (this.get('plaintext')) {
+			return this.set('value', this.$().text());
+		} else {
+			return this.set('value', this.$().html());
+		}
+	},
 
-  keyDown: function(event) {
-    if (!event.metaKey) {
-      return this.set("isUserTyping", true);
-    }
-  },
-
-  keyUp: function(event) {
-    if (this.get("plaintext")) {
-      return this.set("value", this.$().text());
-    } else {
-      return this.set("value", this.$().html());
-    }
-  },
-
-  setContent: function() {
-    return this.$().html(this.get("value"));
-  }
+	setContent: function() {
+		return this.$().html(this.get('value'));
+	}
 });
