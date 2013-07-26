@@ -11,11 +11,7 @@ App.ContenteditableView = Em.View.extend({
 	contenteditable: (function() {
 		var editable = this.get('editable');
 
-		if (editable) {
-			return editable ? 'true' : 'false';
-		} else {
-			return 'true';
-		}
+		return editable ? 'true' : undefined;
 	}).property('editable'),
 
 	// Observers:
