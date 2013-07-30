@@ -1,4 +1,4 @@
-App.ContenteditableView = Em.View.extend({
+Ember.ContenteditableView = Em.View.extend({
 	tagName: 'div',
 	attributeBindings: ['contenteditable'],
 
