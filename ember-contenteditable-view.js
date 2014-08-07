@@ -13,13 +13,18 @@ Ember.ContenteditableView = Em.View.extend({
 
 		return editable ? 'true' : undefined;
 	}).property('editable'),
+	
+	// Processors:
+    	processValue: function() {
+    		if (!this.get('isUserTyping') && this.get('value')) {
+    			return this.setContent();
+    		}
+    	},
 
 	// Observers:
-	valueObserver: (function() {
-		if (!this.get('isUserTyping') && this.get('value')) {
-			return this.setContent();
-		}
-	}).observes('value'),
+	alueObserver: (function() {
+    		Ember.run.once(this, 'processValue');
+    	}).observes('value', 'isUserTyping'),
 
 	// Events:
 	didInsertElement: function() {
@@ -44,10 +49,10 @@ Ember.ContenteditableView = Em.View.extend({
 		}
 	},
 
-  //render our own html so there are no metamorphs to get screwed up when the user changes the html
-  render: function(buffer) {
-    buffer.push( this.get('value') )
-  },
+	//render our own html so there are no metamorphs to get screwed up when the user changes the html
+	render: function(buffer) {
+		buffer.push( this.get('value') )
+	},
 
 	setContent: function() {
 		return this.$().html(this.get('value'));
