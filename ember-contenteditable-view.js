@@ -22,7 +22,7 @@ Ember.ContenteditableView = Em.View.extend({
     	},
 
 	// Observers:
-	alueObserver: (function() {
+	valueObserver: (function() {
     		Ember.run.once(this, 'processValue');
     	}).observes('value', 'isUserTyping'),
 
