@@ -22,7 +22,7 @@ Ember.ContenteditableView = Em.View.extend({
     	},
 
 	// Observers:
-	alueObserver: (function() {
+	valueObserver: (function() {
     		Ember.run.once(this, 'processValue');
     	}).observes('value', 'isUserTyping'),
 
@@ -55,6 +55,6 @@ Ember.ContenteditableView = Em.View.extend({
 	},
 
 	setContent: function() {
-		return this.$().html(this.get('value'));
+		return this.$().html(Ember.Handlebars.Utils.escapeExpression(this.get('value')));
 	}
 });
