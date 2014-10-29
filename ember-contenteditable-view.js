@@ -51,7 +51,7 @@ Ember.ContenteditableView = Em.View.extend({
 
 	//render our own html so there are no metamorphs to get screwed up when the user changes the html
 	render: function(buffer) {
-		buffer.push( this.get('value') )
+		buffer.push(this.get('value'));
 	},
 
 	setContent: function() {
